@@ -11,12 +11,5 @@ REMOTE=upstream-$(date +%s)
 
 trap "git remote rm $REMOTE" ERR SIGHUP SIGINT SIGTERM
 
-declare -A EXTRA_ARGS
-function join_by { local IFS="$1"; shift; echo "$*"; }
-
-if [[ ${SKIP_HOOKS:-} == "true" ]]; then
-  EXTRA_ARGS+="--no-verify"
-fi
-
 git remote add $REMOTE $REMOTE_URL
-git push -f $(join_by " " $EXTRA_ARGS) $REMOTE HEAD:master
+git push -f $REMOTE HEAD:master
